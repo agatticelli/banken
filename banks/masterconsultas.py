@@ -43,11 +43,20 @@ class MasterConsultas(Bank):
         dropdown_id = "ROLE_MI_USUARIO"
         btn_id = "ROLE_CERRAR_SESION"
 
+        dropdown = dvr.find_element_by_id(dropdown_id)
+
+        dvr.execute_script("arguments[0].scrollIntoView();", dropdown)
+
         # Open dropdown
-        mouse.move_to_element(dvr.find_element_by_id(dropdown_id)).perform()
+        mouse.move_to_element(dropdown).perform()
 
         # Click on logout btn
         dvr.find_element_by_id(btn_id).click()
+
+        goodbye = dvr.find_element_by_css_selector('.subtit')
+
+        while goodbye.text != "Gracias por utilizar MasterConsultas.":
+            sleep(5)
 
 
     def getCards(self):

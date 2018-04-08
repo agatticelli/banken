@@ -6,24 +6,32 @@ username = os.environ.get('MASTER_USER')
 password = os.environ.get('MASTER_PASS')
 
 mc = MasterConsultas('firefox', username, password)
+try:
 
-mc.login()
+    mc.login()
 
-cards = mc.getCards()
+    cards = mc.getCards()
 
-mc.changeToCard(cards[2])
+    mc.changeToCard(cards[2])
 
-consumptions = mc.getLastConsumptions()
+    consumptions = mc.getLastConsumptions()
 
-sum_ = 0
+    sum_ = 0
 
-for c in consumptions:
-    pesos = c['pesos'].replace(' ', '')
-    if pesos[-3] == ",":
-        pesos = pesos.replace('.', '').replace(',', '.')
-    
-    sum_ += float(pesos)
+    for c in consumptions:
+        pesos = c['pesos'].replace(' ', '')
+        if pesos[-3] == ",":
+            pesos = pesos.replace('.', '').replace(',', '.')
+        
+        sum_ += float(pesos)
 
-print("Total consumido: " + str(round(sum_, 2)))
+    print("Total consumido: " + str(round(sum_, 2)))
 
-mc.close()
+    mc.logout()
+
+except Exception as e:
+    print(e)
+
+finally:
+    if mc:
+        mc.close()
